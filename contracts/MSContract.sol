@@ -3,7 +3,7 @@ pragma solidity ^0.4.8;
 import "./LibSignatures.sol";
 import "./VPC.sol";
 
-contract StateContract {
+contract MSContract {
     event EventInitializing(address addressAlice, address addressBob);
     event EventInitialized(uint cashAlice, uint cashBob);
     event EventRefunded();
@@ -35,7 +35,7 @@ contract StateContract {
     // State options
     enum ChannelStatus {Init, Open, InConflict, Settled, WaitingToClose, ReadyToClose}
 
-    // StateContract variables
+    // MSContract variables
     Party public alice;
     Party public bob;
     uint public timeout;
@@ -46,7 +46,7 @@ contract StateContract {
     * Constructor for setting intial variables takes as input
     * addresses of the parties of the basic channel
     */
-    function StateContract(address _addressAlice, address _addressBob) {
+    function MSContract(address _addressAlice, address _addressBob) {
         // set addresses
         alice.id = _addressAlice;
         bob.id = _addressBob;
@@ -89,7 +89,7 @@ contract StateContract {
     }
 
     /*
-    * This function is used in case one of the players did not confirm the StateContract in time
+    * This function is used in case one of the players did not confirm the MSContract in time
     */
     function refund() AliceOrBob {
         if (status != ChannelStatus.Init) throw;

@@ -36,7 +36,7 @@ var virtualContract;    // object {address:"0x...", associate:"0x...", name:"Bob
 
 var basicChannelAbi;
 var basicChannelCode;
-$.getJSON("build/contracts/StateContract.json", function (json) {
+$.getJSON("build/contracts/MSContract.json", function (json) {
     basicChannelAbi = json.abi;
     basicChannelCode = json.unlinked_binary;
 });
