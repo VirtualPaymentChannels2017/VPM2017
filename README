@@ -1,0 +1,8 @@
+First install:
+ethereum
+testrpc
+truffle
+
+To compile contracts:
+truffle compile
+

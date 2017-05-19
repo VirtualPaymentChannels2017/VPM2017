@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>State Channel Frontend</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/signin.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="myJumbotron text-center">
+    <h1>State Channel Frontend</h1>
+    <h3>Create and manage your Ethereum Payment Channels</h3>
+</div>
+
+<div class="mySubJumbotron text-center hidden" id="welcome">
+    <h3> Welcome <span id="name"></span>. You have <span id="balance"></span> Ether.</h3>
+    <h4> Your address: <span id="address"></span></h4>
+</div>
+
+<div class="col-sm-16 center-block text-center">
+    <div class="alert alert-success fade in hidden" id="status" style="display:none">
+        Success
+    </div>
+</div> <!-- /container -->
+
+<div class="container hidden" id="page-content">
+    <div class="row">
+        <div class="col-sm-4"  id="channel-overview">
+            <div class=" panel panel-default " >
+                <div class="panel-heading">Your Channels:</div>
+                <div class="panel-body">
+                    <button type="button" class="btn" data-toggle="modal" data-target="#create-channel-modal">Create new Channel</button>
+                    <br><br>
+                    <ul class="list-group" id="channel-list"></ul>
+                    <button type="button" class="btn ">Terminate</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-8 hidden" id="channel-select">
+            <h3>Overview of Basic Channel</h3>
+            <table class="table style='width:100%'">
+                <tbody>
+                <tr>
+                    <td>Channel Address</td>
+                    <td colspan="6" id="channel-address"></td>
+                </tr><tr>
+                    <td><span id ="name-left"> </span> cash:</td>
+                    <td id="channel-cash-left"></td>
+                    <td><span id ="name-right"></span> cash:</td>
+                    <td id="channel-cash-right"></td>
+                    <td>Blocked cash:</td>
+                    <td id="channel-cash-blocked"></td>
+                </tr><tr>
+                    <td>Virtual Channel Address</td>
+                    <td colspan="5" id="channel-virtual-address"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-8 hidden"  id="virtual-channel-select">
+            <h3>Internal virtual Channel</h3>
+            <p>You created a virtual channel with <span id="name-virutal"></span></p>
+            <div class="alert alert-success" id="virtual-status" >
+                Channel open
+            </div>
+
+            <table class="table style='width:100%'">
+                <tbody>
+                <td>Latest States</td>
+                <tr>
+                    <td><span id ="virutal-name-left"> </span> cash:</td>
+                    <td id="virtual-channel-cash-left"></td>
+                    <td><span id ="virtual-name-right"></span> cash:</td>
+                    <td id="virtual-channel-cash-right"></td>
+                    <td>Version:</td>
+                    <td id="virtual-channel-seq-no"></td>
+                    <td>Validity:</td>
+                    <td id="virtual-channel-val"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="progress hidden">
+                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
+                     aria-valuemin="0" aria-valuemax="100" style="width:60%">
+                    60% Complete (warning)
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- /container -->
+
+
+
+<div id="login-modal" class="container" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="login-name">Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="login-name" placeholder="Enter name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="login-name">Availiable Accounts:</label>
+                        <div class="col-sm-10">
+                            <select  class="form-control" id="available_accounts">
+                                <!-- show availibale Accounts -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" id="login-submit">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> <!-- /container -->
+
+<div id="create-channel-modal"  class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create a new Payment Channel</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="basic-user-name">Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="basic-user-name" placeholder="Enter name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="basic-user-name">Address:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="basic-user-address" placeholder="Enter ethereum address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="basic-deposit">Deposit:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="basic-deposit" placeholder="Enter ammount in ether">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="input-address-toogle">Contract already deployed</label>
+                            </div>
+                        </div>
+                        <div id="input-address-form" style="display:none;">
+                            <label class="control-label col-sm-2" for="input-address">Address:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input-address" placeholder="Enter contract address">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" id="create-submit" data-toggle="modal" data-target="#create-channel-modal">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> <!-- /container -->
+
+<div id="add-virtual-channel-modal"  class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create a new Virtual Payment Channel</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="virtual-user-name">Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="virtual-user-name" placeholder="Enter name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="virtual-user-name">Address:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="virtual-user-address" placeholder="Enter ethereum address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="virtual-deposit">Deposit:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="virtual-deposit" placeholder="Enter ammount in ether">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" id="create-virtual-submit" data-toggle="modal" data-target="#add-virtual-channel-modal">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> <!-- /container -->
+
+<div id="CORS-modal" class="container hidden" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">Connection to blockchain could not be established. </div>
+            <div class="modal-body">
+                <p> Please start Geth with the following options:<br><br><code>geth --rpc --rpccorsdomain "https://wallet.ethereum.org"</code><br><br>
+                    Alternatively try: <code>--unlock &lt;yourAccount&gt;.</code></></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/jquery-3.2.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/web3.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

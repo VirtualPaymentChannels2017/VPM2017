@@ -1,0 +1,17 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+.myJumbotron {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: inherit;
+    background-color: #eee
+}
+
+.mySubJumbotron {
+     padding-top: 10px;
+     padding-bottom: 10px;
+     color: inherit;
+     background-color: #ddd
+ }
+
+.hidden { display: none; }
